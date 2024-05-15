@@ -9,12 +9,9 @@ const productsRouter = require('./api/routes/products');
 const ordersRouter = require('./api/routes/orders');
 
 // Connect DB
-mongoose.connect(
-    'mongodb+srv://node-shop:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop.byfw8nl.mongodb.net/?retryWrites=true&w=majority&appName=node-rest-shop',
-    {
-        useMongoClient: true
-    }
-);
+const uri = 'mongodb+srv://node-shop:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop.byfw8nl.mongodb.net/?retryWrites=true&w=majority&appName=node-rest-shop';
+
+mongoose.connect(uri);
 
 // Logging Middleware
 app.use(morgan('dev'));
