@@ -9,9 +9,21 @@ const productsRouter = require('./api/routes/products');
 const ordersRouter = require('./api/routes/orders');
 
 // Connect DB
-const uri = 'mongodb+srv://node-shop:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop.byfw8nl.mongodb.net/?retryWrites=true&w=majority&appName=node-rest-shop';
+const uri = 'mongodb+srv://node-shop:' + 'node-shop' + '@node-rest-shop.byfw8nl.mongodb.net/?retryWrites=true&w=majority&appName=node-rest-shop';
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-mongoose.connect(uri);
+async function run() {
+    try {
+        // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+        await mongoose.connect(uri, clientOptions);
+        await mongoose.connection.db.admin().command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await mongoose.disconnect();
+    }
+}
+run()
 
 // Logging Middleware
 app.use(morgan('dev'));
